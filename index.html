@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رحلة في وطننا 🇸🇦</title>
+
+<style>
+.saudi-map-real {
+  width: 100%;
+  max-width: 850px;
+  margin: 20px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.saudi-map-real img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Cairo",Arial,sans-serif;
+    background:#f5f1e8;
+    color:#173b2b;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+    color:white;
+    background:
+        radial-gradient(circle at 20% 20%,#4c8067 0%,transparent 30%),
+        radial-gradient(circle at 80% 80%,#285c45 0%,transparent 30%),
+        linear-gradient(135deg,#08291d,#174d36);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:before,
+.hero:after{
+    content:"";
+    position:absolute;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:50%;
+}
+
+.hero:before{
+    width:500px;
+    height:500px;
+}
+
+.hero:after{
+    width:750px;
+    height:750px;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.saudi-symbol{
+    font-size:80px;
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    50%{transform:translateY(-12px)}
+}
+
+.hero h1{
+    font-size:clamp(42px,8vw,82px);
+    font-weight:800;
+    margin:10px 0;
+}
+
+.hero h2{
+    color:#e8d8ad;
+    font-size:clamp(20px,4vw,32px);
+}
+
+.hero p{
+    max-width:650px;
+    margin:20px auto;
+    opacity:.9;
+    font-size:18px;
+}
+
+.start{
+    border:0;
+    padding:15px 40px;
+    border-radius:50px;
+    background:#e8d8ad;
+    color:#173b2b;
+    font-size:18px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.start:hover{
+    transform:scale(1.07);
+    box-shadow:0 10px 30px #0004;
+}
+
+/* ================= SECTIONS ================= */
+
+section{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 25px;
+}
+
+.title{
+    text-align:center;
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.description{
+    text-align:center;
+    color:#777;
+    margin-bottom:45px;
+}
+
+/* ================= MAP ================= */
+
+.map-area{
+    background:#fff;
+    border-radius:35px;
+    padding:40px;
+    box-shadow:0 20px 50px #00000012;
+    text-align:center;
+}
+
+.map{
+    max-width:650px;
+    margin:auto;
+    position:relative;
+    min-height:450px;
+}
+
+/*
+   خريطة زخرفية مبسطة للمملكة
+*/
+
+.saudi-map{
+    width:100%;
+    max-width:580px;
+    filter:drop-shadow(0 15px 20px #0003);
+}
+
+.map-shape{
+    fill:#17613f;
+    stroke:#e8d8ad;
+    stroke-width:4;
+}
+
+.map-label{
+    fill:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.map-point{
+    fill:#e8d8ad;
+    stroke:white;
+    stroke-width:3;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.map-point:hover{
+    fill:#fff;
+    transform-box:fill-box;
+    transform-origin:center;
+}
+
+/* ================= REGION CARDS ================= */
+
+.regions{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+}
+
+.region{
+    background:white;
+    padding:25px 15px;
+    border-radius:22px;
+    text-align:center;
+    cursor:pointer;
+    border:2px solid transparent;
+    box-shadow:0 8px 25px #0000000d;
+    transition:.3s;
+}
+
+.region:hover{
+    transform:translateY(-7px);
+    border-color:#c5a965;
+}
+
+.region .icon{
+    font-size:42px;
+}
+
+.region h3{
+    margin-top:8px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:#0009;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:650px;
+    background:white;
+    border-radius:30px;
+    padding:40px;
+    position:relative;
+    animation:popup .3s ease;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:scale(.85);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    left:20px;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.modal-icon{
+    font-size:65px;
+}
+
+.modal-box h2{
+    font-size:35px;
+    margin:5px 0 15px;
+}
+
+.info{
+    background:#f4f0e5;
+    padding:18px;
+    border-radius:17px;
+    margin-top:15px;
+}
+
+/* ================= MESSAGE ================= */
+
+.message-section{
+    max-width:none;
+    background:#123c2a;
+    color:white;
+    text-align:center;
+}
+
+.message-section .description{
+    color:#ddd;
+}
+
+textarea{
+    width:100%;
+    max-width:700px;
+    min-height:140px;
+    border:0;
+    border-radius:20px;
+    padding:20px;
+    font-family:inherit;
+    font-size:16px;
+    outline:none;
+}
+
+.send{
+    display:block;
+    margin:15px auto;
+    padding:13px 35px;
+    border:0;
+    border-radius:50px;
+    background:#e8d8ad;
+    color:#173b2b;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.messages{
+    max-width:700px;
+    margin:30px auto;
+}
+
+.message{
+    background:#ffffff12;
+    padding:15px;
+    border-radius:15px;
+    margin-top:10px;
+}
+
+/* ================= COUNTER ================= */
+
+.counter{
+    text-align:center;
+    background:white;
+    border-radius:30px;
+    padding:45px;
+    box-shadow:0 10px 40px #0000000c;
+}
+
+.number{
+    font-size:60px;
+    font-weight:800;
+    color:#17613f;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    background:#092619;
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+.gold{
+    color:#e8d8ad;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    section{
+        padding:60px 15px;
+    }
+
+    .map-area{
+        padding:20px 10px;
+    }
+
+    .modal-box{
+        padding:30px 20px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HERO ================= -->
+
+<header class="hero">
+
+<div class="hero-content">
+
+<div class="saudi-symbol">🇸🇦</div>
+
+<h1>رحلة في وطننا</h1>
+
+<h2>13 منطقة .. وطن واحد</h2>
+
+<p>
+اكتشف المملكة من خلال رحلة تفاعلية بين مناطقها،
+وتعرّف على تاريخها وثقافتها وطبيعتها.
+</p>
+
+<button class="start" onclick="startJourney()">
+ابدأ الرحلة ✨
+</button>
+
+</div>
+
+</header>
+
+
+<!-- ================= MAP ================= -->
+
+<section id="journey">
+
+<h2 class="title">🗺️ استكشف المملكة</h2>
+
+<p class="description">
+اضغط على إحدى المناطق للتعرف عليها
+</p>
+
+<div class="map-area">
+
+<div class="map">
+
+<div class="saudi-map-real">
+  <img
+    src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Saudi_Arabia_Administrative_Divisions_-_AR.svg"
+    alt="خريطة التقسيم الإداري للمملكة العربية السعودية"
+  >
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CARDS ================= -->
+
+<section>
+
+<h2 class="title">🇸🇦 مناطق وطننا</h2>
+
+<p class="description">
+اختر أي منطقة لبدء الاستكشاف
+</p>
+
+<div class="regions" id="regions"></div>
+
+</section>
+
+
+<!-- ================= COUNTER ================= -->
+
+<section>
+
+<div class="counter">
+
+<h2>👥 زوار الرحلة</h2>
+
+<div class="number" id="visitorCount">
+0
+</div>
+
+<p>
+شكرًا لكل من شارك في رحلتنا 🇸🇦
+</p>
+
+</div>
+
+</section>
+
+
+<!-- ================= MESSAGES ================= -->
+
+<section class="message-section">
+
+<h2 class="title">💚 رسالة للوطن</h2>
+
+<p class="description">
+لو كان بإمكانك إرسال رسالة للسعودية، ماذا ستقول؟
+</p>
+
+<textarea
+id="messageInput"
+placeholder="اكتب رسالتك هنا..."
+></textarea>
+
+<button class="send" onclick="sendMessage()">
+إرسال الرسالة 🇸🇦
+</button>
+
+<div class="messages" id="messages"></div>
+
+</section>
+
+
+<footer>
+
+🇸🇦 المملكة العربية السعودية
+
+<br>
+
+<span class="gold">
+رحلة في وطننا — 13 منطقة .. وطن واحد
+</span>
+
+</footer>
+
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<div class="close" onclick="closeModal()">×</div>
+
+<div id="modalContent"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   بيانات المناطق
+========================================== */
+
+const regions = [
+
+{
+name:"الرياض",
+icon:"🏙️",
+description:"عاصمة المملكة العربية السعودية ومركز مهم للأعمال والثقافة والتطور العمراني.",
+famous:"الدرعية، قصر المصمك، والمشهد العمراني الحديث."
+},
+
+{
+name:"مكة المكرمة",
+icon:"🕋",
+description:"تحتضن المسجد الحرام والكعبة المشرفة، وهي مقصد المسلمين من مختلف أنحاء العالم.",
+famous:"المسجد الحرام والمشاعر المقدسة."
+},
+
+{
+name:"المدينة المنورة",
+icon:"🕌",
+description:"مدينة تاريخية وثقافية مهمة وتحتضن المسجد النبوي الشريف.",
+famous:"المسجد النبوي ومعالم السيرة النبوية."
+},
+
+{
+name:"القصيم",
+icon:"🌴",
+description:"منطقة تشتهر بالزراعة والتمور والأسواق الشعبية والتراث المحلي.",
+famous:"التمور والمزارع والأسواق الشعبية."
+},
+
+{
+name:"المنطقة الشرقية",
+icon:"🌊",
+description:"تتميز بموقعها على الخليج العربي وأهميتها الاقتصادية والصناعية.",
+famous:"سواحل الخليج العربي والمواقع الثقافية."
+},
+
+{
+name:"عسير",
+icon:"🏔️",
+description:"تتميز بالجبال والطبيعة الخضراء والتنوع الثقافي والتراثي.",
+famous:"أبها ورجال ألمع والمدرجات الزراعية."
+},
+
+{
+name:"تبوك",
+icon:"🏜️",
+description:"تجمع بين الجبال والسواحل والطبيعة الصحراوية والمواقع التاريخية.",
+famous:"الجبال والسواحل والمواقع التاريخية."
+},
+
+{
+name:"حائل",
+icon:"⛰️",
+description:"تشتهر بجبالها وتراثها وقصصها التاريخية.",
+famous:"جبال أجا وسلمى والتراث المحلي."
+},
+
+{
+name:"الحدود الشمالية",
+icon:"🌾",
+description:"تتميز بالطبيعة الصحراوية والمواقع الأثرية والحياة البرية.",
+famous:"الطبيعة الصحراوية والمواقع الأثرية."
+},
+
+{
+name:"جازان",
+icon:"🌴",
+description:"تتميز بالتنوع الطبيعي بين السواحل والجبال والجزر.",
+famous:"جزر فرسان والسواحل والطبيعة."
+},
+
+{
+name:"نجران",
+icon:"🏛️",
+description:"تشتهر بتاريخها العريق وتراثها العمراني والثقافي.",
+famous:"المواقع الأثرية والتراث العمراني."
+},
+
+{
+name:"الباحة",
+icon:"🌲",
+description:"تتميز بالجبال والغابات والمناظر الطبيعية.",
+famous:"الغابات والجبال والطبيعة."
+},
+
+{
+name:"الجوف",
+icon:"🫒",
+description:"تشتهر بالزراعة وخاصة الزيتون إضافة إلى مواقعها التاريخية.",
+famous:"الزيتون وسكاكا والمواقع الأثرية."
+}
+
+];
+
+
+/* ==========================================
+   إنشاء البطاقات
+========================================== */
+
+const container =
+document.getElementById("regions");
+
+regions.forEach((region,index)=>{
+
+const card=document.createElement("div");
+
+card.className="region";
+
+card.innerHTML=`
+
+<div class="icon">
+${region.icon}
+</div>
+
+<h3>
+${region.name}
+</h3>
+
+<p style="color:#888">
+اضغط للاستكشاف
+</p>
+
+`;
+
+card.onclick=()=>openRegion(index);
+
+container.appendChild(card);
+
+});
+
+
+/* ==========================================
+   فتح معلومات المنطقة
+========================================== */
+
+function openRegion(index){
+
+const region=regions[index];
+
+document.getElementById("modalContent").innerHTML=`
+
+<div class="modal-icon">
+${region.icon}
+</div>
+
+<h2>
+${region.name}
+</h2>
+
+<p>
+${region.description}
+</p>
+
+<div class="info">
+
+<strong>✨ ماذا يميزها؟</strong>
+
+<p>
+${region.famous}
+</p>
+
+</div>
+
+<div class="info">
+
+<strong>🇸🇦 هل زرت هذه المنطقة؟</strong>
+
+<p>
+اكتشف المزيد عنها وشارك تجربتك مع زوار الرحلة.
+</p>
+
+</div>
+
+`;
+
+document.getElementById("modal").style.display="flex";
+
+}
+
+
+/* ==========================================
+   إغلاق النافذة
+========================================== */
+
+function closeModal(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+window.onclick=function(e){
+
+if(e.target===document.getElementById("modal")){
+
+closeModal();
+
+}
+
+};
+
+
+/* ==========================================
+   بداية الرحلة
+========================================== */
+
+function startJourney(){
+
+document
+.getElementById("journey")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+increaseVisitors();
+
+}
+
+
+/* ==========================================
+   عداد الزوار
+========================================== */
+
+function increaseVisitors(){
+
+let count=
+Number(localStorage.getItem("visitorCount")||0);
+
+count++;
+
+localStorage.setItem("visitorCount",count);
+
+document.getElementById("visitorCount").textContent=count;
+
+}
+
+
+/* ==========================================
+   الرسائل
+========================================== */
+
+function sendMessage(){
+
+const input=
+document.getElementById("messageInput");
+
+const text=input.value.trim();
+
+if(!text){
+
+alert("اكتب رسالتك أولًا 💚");
+
+return;
+
+}
+
+let messages=
+JSON.parse(
+localStorage.getItem("messages")||"[]"
+);
+
+messages.unshift(text);
+
+localStorage.setItem(
+"messages",
+JSON.stringify(messages)
+);
+
+input.value="";
+
+showMessages();
+
+alert("وصلت رسالتك للوطن 🇸🇦💚");
+
+}
+
+
+/* ==========================================
+   عرض الرسائل
+========================================== */
+
+function showMessages(){
+
+const box=
+document.getElementById("messages");
+
+let messages=
+JSON.parse(
+localStorage.getItem("messages")||"[]"
+);
+
+box.innerHTML="";
+
+messages.slice(0,10).forEach(message=>{
+
+const div=document.createElement("div");
+
+div.className="message";
+
+div.textContent="💚 "+message;
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* ==========================================
+   تشغيل العداد والرسائل
+========================================== */
+
+document.getElementById("visitorCount").textContent=
+localStorage.getItem("visitorCount")||0;
+
+showMessages();
+
+</script>
+
+</body>
+</html>
